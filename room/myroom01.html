@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+
+    <style>
+        body {
+            padding: 0px;
+            margin: 0px;
+            background-color: bisque;        
+            width: 100vw;
+            /* height: 100vh; */
+            box-sizing: border-box;
+        }
+        .boxMenu {
+            /* border: solid 1px #f00; */
+            position:  absolute;
+            background-color:burlywood;
+            width: 380px;
+            /* height: 100vh; */
+            
+            z-index: 1;
+            padding: 10px;
+            top: 0px;
+            left: 0px;
+            box-sizing: border-box;
+        }
+        .boxMain {
+            /* border: solid 1px #f00; */
+            position:  absolute;
+            background-color:darksalmon;
+            width: calc(100vw - 380px);
+            /* height: 100vh; */
+            
+            z-index: 1;
+            padding: 10px;
+            top: 0px;
+            left: 380px;
+            box-sizing: border-box;
+        }
+        .boxVideo {
+            display: inline-block;
+            width: 200px;
+            height: 200px;
+            background-color: coral;
+            padding: 10px;
+            margin: 10px;
+        }
+
+        .their_video_base {
+            background-color: coral;
+            height: 300px;
+            width: 340px;
+            padding: 10px 10px 10px 10px;
+            margin: 0px 10px 10px 10px;
+        }
+
+        .my_video_base {
+            background-color: coral;
+            height: 300px;
+            width: 340px;
+            padding: 10px 10px 10px 10px;
+            margin: 0px 10px 10px 10px;
+        }
+        .box {
+            display: inline-block;
+            width: 220px;
+            height: 200px;
+            background-color: coral;
+            padding: 10px;
+            margin: 10px;
+        }
+        .text_center {
+            text-align: center;
+        }
+        .video_base {
+            background-color: darkblue;
+            width: 320px;
+            height: 240px; 
+        }
+        .video_base_min {
+            background-color: darkblue;
+            width: 200px;
+            height: 150px; 
+        }
+
+        .video_title {
+            background-color: coral;
+            width: 340px;
+            text-align: center;
+            margin: 10px 10px 0px 10px;
+            padding:  10px 10px 0px 10px;
+        }
+        .connect_base {
+            background-color: darkseagreen;
+            margin: 0px;
+            padding: 0px;
+            /* margin-top: 0px;
+            margin-bottom: 0px; */
+            /* text-align: center; */
+        }
+        .meeting_base {
+            background-color:darkseagreen;
+            margin: 10px;
+            padding: 10px;
+        }
+
+    </style>
+    <script>
+        window.onload = () => {
+            // console.log("----- onload -----");
+
+            // const box1List = document.getElementById("box1_list");
+
+
+            // const debugBtn = document.getElementById('debug');
+
+            // debugBtn.addEventListener('click', () => {
+
+            //     console.log("----- click -----");
+
+            //     const newDiv = document.createElement('div');
+            //     // newDiv.setAttribute("id", "box1");
+            //     newDiv.setAttribute("class", "boxVideo");
+                
+            //     const newIdDiv = document.createElement('div');
+                
+
+            //     const newP = document.createElement('p');
+            //     const newText = document.createTextNode('Hello World');
+            //     newP.appendChild(newText);
+
+            //     newIdDiv.appendChild(newP);
+
+            //     newDiv.appendChild(newIdDiv);
+
+
+
+            //     box1List.append(newDiv);
+
+
+
+            // });
+
+        }
+    </script>    
+</head>
+<body>
+    <div class="boxMenu">
+        <p class="video_title">相手の映像</p>
+        <div class="their_video_base" id="their_video_base">
+            <video id="their-video" class="video_base" autoplay playsinline></video>
+
+            <div class="connect_base form-inline pl-2">
+                ID：<input type="text" id="their-id" class="form-control ml-2"  style="width: 130px;">
+                    <button id="make-call" class="btn btn-primary ml-2">通話</button>
+                    <button id="js-close-trigger"  class="btn btn-primary ml-2">切断</button>
+            </div>
+        </div>    
+        
+
+        <p class="video_title">自撮り映像</p>
+        <div class="my_video_base" id="my_video_base">
+            <video id="js-local-stream" class="video_base" autoplay playsinline></video>
+            <p class="text_center" id="my-id"></p>
+        </div>
+
+        <p class="meta" id="js-meta" hidden></p>
+
+    </div>
+    <div class="boxMain">
+        <div class="meeting_base form-inline">
+            <span id="js-room-mode" hidden></span>
+            会議室ID：
+            <input type="text" placeholder="Room Name" id="js-room-id" class="form-control" style="width: 130px;">
+
+            <button id="js-join-trigger" class="btn btn-primary  ml-2" >入出</button>
+            <button id="js-leave-trigger"class="btn btn-primary  ml-2" >退出</button>
+
+            <span class="messages" id="join-messages" style="margin-left: 2em;"></span>
+        </div>
+        <div style="display: none;">
+            <p class="messages" id="js-messages">aaa</p>
+            <input type="text" id="js-local-text">
+            <button id="js-send-trigger">Send</button>
+        </div>
+    
+        <div class="remote-streams" id="js-remote-streams"></div>
+    </div> 
+
+    <script src="//cdn.webrtc.ecl.ntt.com/skyway-latest.js"></script>
+    <script src="../_shared/key.js"></script>
+    <script src="./script2.js"></script>
+
+</body>
+</html>
